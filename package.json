@@ -1,0 +1,38 @@
+{
+  "name": "password_gauge",
+  "title": "Password Gauge",
+  "description": "How strong do you think your password is? Think again.",
+  "version": "0.1.0",
+  "homepage": "http://serene-sands-6112.herokuapp.com/",
+  "licenses": [
+    {
+      "type": "Apache v2",
+      "url": "https://github.com/kmdavis/password_gauge/blob/master/LICENSE"
+    }
+  ],
+  "keywords": [
+    "password",
+    "security"
+  ],
+  "author": {
+    "name": "Kevan Davis",
+    "email": "kdavis@gilt.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kmdavis/password_gauge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kmdavis/password_gauge/issues"
+  },
+  "dependencies": {
+    "coffee-script": "1.6.x",
+    "express": "3.4.x",
+    "express3-handlebars": "0.5.x",
+    "handlebars": "1.1.x"
+  },
+  "main": "app.coffee",
+  "engine": {
+    "node": ">=0.8.0"
+  }
+}

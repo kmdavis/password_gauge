@@ -1,4 +1,4 @@
-password_guage
+password_gauge
 ==============
 
 How strong is your password? Think again.

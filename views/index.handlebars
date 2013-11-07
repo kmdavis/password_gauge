@@ -1,0 +1,108 @@
+<div class="jumbotron">
+  <h4>How good do you think your password is? <strong>Think again.</strong></h4>
+  <br>
+  <form role="form" class="gauge-form">
+    <input type="password" class="form-control input-lg" name="password" placeholder="what's your password?"/>
+    <!--<div class="popover fade right" id="evaluation_results">-->
+      <!--<div class="arrow"></div>-->
+      <!--<h3 class="popover-title">A Title</h3>-->
+      <!--<div class="popover-content">-->
+        <!--Lorem ipsum dolor sit amet-->
+      <!--</div>-->
+    <!--</div>-->
+    <div class="input-group input-group-sm">
+      <select class="form-control" name="vendor">
+        <option value="">Where do you use this?</option>
+        <option value="gilt">Gilt</option>
+        <option value="gmail">Gmail</option>
+        <option value="yahoo">Yahoo!</option>
+        <option value="microsoft">Microsoft</option>
+        <option value="todo">TODO: More Options</option>
+      </select>
+      <span class="input-group-addon">OR</span>
+      <select class="form-control" name="hash_method">
+        <option value="">How is your password secured?</option>
+        <option value="MD5">MD5</option>
+        <option value="SHA-1">SHA-1</option>
+        <option value="SHA-256">SHA-256</option>
+        <option value="bcrypt">bcrypt</option>
+        <option value="todo">TODO: More Options</option>
+      </select>
+    </div>
+  </form>
+  <br>
+  <p><a class="btn btn-lg btn-success" id="evaluate" href="#" role="button" title="Am I Safe?" data-content="Testing" data-toggle="popover" data-container="body" data-placement="bottom">Am I safe?</a></p>
+  <div class="results">
+    <h4>Analysis:</h4>
+    <ul class="list-group">
+      <li class="list-group-item">
+        A Metric
+        <span class="badge">4</span>
+      </li>
+      <li class="list-group-item">
+        Another Metric
+        <span class="badge">3</span>
+      </li>
+      <li class="list-group-item">
+        Yet Another Metric
+        <span class="badge">14</span>
+      </li>
+      <li class="list-group-item">
+        You get the idea
+        <span class="badge">0</span>
+      </li>
+    </ul>
+
+    <h4>How safe am I?</h4>
+    <ul class="list-group">
+      <li class="list-group-item">
+        It would take your boss <code>40 years</code> to crack your password.
+      </li>
+      <li class="list-group-item">
+        A script kiddie could crack your password in <code>a month</code>.
+      </li>
+      <li class="list-group-item">
+        A professional hacker could do it in <code>2 days</code>.
+      </li>
+      <li class="list-group-item">
+        The NSA (or another large security apparatus) could do it in <code>10 seconds</code>.
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="row marketing">
+  <div class="col-lg-6">
+    <h4>Can I Trust You?</h4>
+    <p>
+      Never trust anyone.
+      Having said that, <strong>yes</strong> you can trust us.
+
+      Your password will not be saved.
+      Your password will not be sold.
+      Your password will not be transmitted.
+
+      <strong>All</strong> of our analysis is done client side, on <strong>your</strong> computer.
+
+      The only data we collect are the results of the analysis
+      <small>(e.g. what character classes are you using, how long is it, how long do we think it would take the NSA to crack it, etc)</small>
+    </p>
+
+    <h4>Subheading</h4>
+    <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+
+    <h4>Subheading</h4>
+    <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+  </div>
+
+  <div class="col-lg-6">
+    <h4>Subheading</h4>
+    <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+
+    <h4>Subheading</h4>
+    <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+
+    <h4>Subheading</h4>
+    <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+  </div>
+</div>
