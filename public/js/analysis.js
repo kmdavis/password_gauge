@@ -1,8 +1,10 @@
-define(['underscore'], function (_) {
+define(['underscore', 'keyboard', 'dictionary'], function (_, Keyboard, Dictionary) {
+
+  var keyboard, dictionary;
 
   function init (config) {
-    KEYBOARD = config.keyboard.map,
-    DICTIONARY = mutateDictionary(config.dictionary);
+    keyboard = new Keyboard(config.keyboard);
+    dictionary = new Dictionary(config.dictionary);
   }
 
   function analyze (password) {
@@ -35,17 +37,12 @@ define(['underscore'], function (_) {
       consecutive_symbols:           consecutive(password, /[\W_]{2,}/g),
       sequential_numbers:            sequential(password,  /\d{2,}/g),
       sequential_letters:            sequential(password,  /[a-zA-Z]{2,}/g),
-      keyboard_proximity:            keyboardProximity(password),
-      dictionary_hits:               dictionaryHits(password)
+      keyboard_proximity:            keyboard.proximity(password),
+      dictionary_hits:               dictionary.getHits(password)
       // TODO: unicode? (e.g. 'ä' vs '$' and 'a' -> 'ä')
       // TODO: war list (e.g. ask some questions, what's your name? when were you born?, etc
-      // TODO: 1337 case
     };
   }
-
-  var
-    DICTIONARY = null, // filled in by init
-    KEYBOARD = null;
 
   function consecutive (password, regex) {
     return _.reduce(password.match(regex) || [], function (sum, match) {
@@ -63,127 +60,6 @@ define(['underscore'], function (_) {
       });
       return count;
     }, 0);
-  }
-
-  function getKeyboardAt(x, y, shift) {
-    if (KEYBOARD[y] && KEYBOARD[y][x]) {
-      return KEYBOARD[y][x][shift];
-    }
-    return null;
-  }
-
-  function getKeyboardNeighbors (letter) {
-    var result = {
-      distance: []
-    };
-    _.each(KEYBOARD, function (row, y) {
-      _.each(row, function (cell, x) {
-        if (_.contains(cell, letter)) {
-          var
-            shift    = cell[0] === letter ? 0 : 1,
-            altShift = cell[0] === letter ? 1 : 0;
-
-          result.distance[0] = [letter];
-
-          result.distance[1] = [
-            cell[altShift],
-            getKeyboardAt(x, y - 1, shift),
-            getKeyboardAt(x, y + 1, shift),
-            getKeyboardAt(x - 1, y, shift),
-            getKeyboardAt(x + 1, y, shift)
-          ];
-
-          result.distance[2] = [
-            getKeyboardAt(x, y - 1, altShift),
-            getKeyboardAt(x, y + 1, altShift),
-            getKeyboardAt(x - 1, y, altShift),
-            getKeyboardAt(x + 1, y, altShift),
-            getKeyboardAt(x - 1, y - 1, shift),
-            getKeyboardAt(x - 1, y + 1, shift),
-            getKeyboardAt(x + 1, y - 1, shift),
-            getKeyboardAt(x + 1, y + 1, shift)
-          ];
-
-          result.distance[3] = [
-            getKeyboardAt(x - 1, y - 1, altShift),
-            getKeyboardAt(x - 1, y + 1, altShift),
-            getKeyboardAt(x + 1, y - 1, altShift),
-            getKeyboardAt(x + 1, y + 1, altShift)
-          ];
-        }
-      });
-    });
-
-    return result;
-  }
-
-  function keyboardProximity (password) {
-    var i, result = 0;
-
-    for (i = 0; i < password.length - 1; i += 1) {
-      var
-        neighbors = getKeyboardNeighbors((password[i])),
-        nextLetter = password[i + 1];
-
-      _.each(neighbors.distance, function (keys, i) {
-        if (_.contains(keys, nextLetter)) {
-          result += 4 - i;
-        }
-      });
-    }
-
-    return result;
-  }
-
-  function mutateDictionary (dictionary) {
-    var
-      dict1337 = _.flatten(_.map(dictionary, function (w) { return mutate1337(w); })),
-      dictKeyb = _.flatten(_.map(dictionary, function (w) { return mutateKeyboard(w); }));
-
-    return _.uniq(_.flatten([
-      dictionary,
-      dict1337,
-      dictKeyb,
-      _.map(dict1337, function (w) { return mutateKeyboard(w); }),
-      _.map(dictKeyb, function (w) { return mutate1337(w); })
-    ]));
-  }
-
-  function mutate1337 (word) {
-    // TODO
-    // step 1: split
-    // step 2: get a list of all possible substitutions
-    // step 3: recombine all combinations
-    return [word];
-  }
-
-  function mutateKeyboard (word) {
-    var
-      raw = _.map(word, function (letter) {
-        return getKeyboardNeighbors(letter);
-      }),
-      results = [
-        _.map(raw, function (a) { return a.distance[1][1]; }),
-        _.map(raw, function (a) { return a.distance[1][2]; }),
-        _.map(raw, function (a) { return a.distance[1][3]; }),
-        _.map(raw, function (a) { return a.distance[1][4]; }),
-        _.map(raw, function (a) { return a.distance[2][4]; }),
-        _.map(raw, function (a) { return a.distance[2][5]; }),
-        _.map(raw, function (a) { return a.distance[2][6]; }),
-        _.map(raw, function (a) { return a.distance[2][7]; })
-      ];
-
-    return _.map(_.reject(results, function (w) {
-      return _.contains(w, null);
-    }), function (w) {
-      return w.join('');
-    });
-  }
-
-  function dictionaryHits (password) {
-    return _.filter(DICTIONARY, function (word) {
-      return password.indexOf(word) !== -1;
-    }).length;
   }
 
   return {
