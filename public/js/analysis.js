@@ -15,7 +15,7 @@ define(['underscore', 'keyboard', 'dictionary'], function (_, Keyboard, Dictiona
       numSymbols   = (password.match(/[\W_]/g) || []).length;
 
     return {
-      length: password.length,
+      password_length:               password.length,
       num_uppercase:                 numUppercase,
       num_lowercase:                 numLowercase,
       num_numerals:                  numNumerals,

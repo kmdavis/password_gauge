@@ -1,8 +1,9 @@
-define(['jquery', 'analysis'], function ($, analysis) {
+define(['jquery', 'analysis' , 'metrics_reporter'], function ($, analysis, metricsReporter) {
   function run (password) {
     var results = analysis.analyze(password);
     // TODO: submit results
-    // TODO: render results
+    metricsReporter.render(results);
+    $('.results').removeClass('hide');
     // TODO: score results
     // TODO: render score
     console.log(results);
