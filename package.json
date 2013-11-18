@@ -29,7 +29,8 @@
     "coffee-script": "1.6.x",
     "express": "3.4.x",
     "express3-handlebars": "0.5.x",
-    "handlebars": "1.1.x"
+    "handlebars": "1.1.x",
+    "underscore": "1.5.x"
   },
   "main": "app.coffee",
   "engine": {
