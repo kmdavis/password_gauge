@@ -29,16 +29,21 @@
 
     </div>
 
+    <script>
+      require = {
+        baseUrl: '/js'
+      };
+    </script>
+    <script src="/js/require.min.js"></script>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-      $(function () {
-        $('#evaluate').on('click', function (ev) {
-          console.log('hi');
-          ev.preventDefault();
-          $('#evaluation_results').toggleClass('in');
+      require(['app'], function (app) {
+        app.init({
+          dictionary: {{{dictionary}}},
+          keyboard: {{{keyboard}}}
         });
-      })
+      });
     </script>
   </body>
 </html>
