@@ -151,18 +151,28 @@ define(['jquery', 'underscore', 'handlebars'], function ($, _, Handlebars) {
         return naiveScoreRepeats(key, value, 'Number of Sequential Numerals', analysis.password_length, [0.01, 0.05, 0.1]); // arbitrary thresholds
       case 'keyboard_proximity':
         return naiveScoreRepeats(key, value, 'Keyboard Proximity', analysis.password_length, [0.05, 0.1, 0.2]); // arbitrary thresholds
-      case 'dictionary_hits':
-        return null;
       case 'dictionary_hit_count':
         return naiveScoreNumPoison(key, value, 'Dictionary Hits', analysis.password_length / 5); // arbitrary
-      default:
+      case 'entropy':
         return {
           key: key,
           label: titleCase(key),
-          value: 0,
-          status: null,
-          score: 0
+          value: Math.floor(value),
+          status: (function () {
+            if (value < 64) { // arbitrary thresholds:
+              return 'danger';
+            } else if (value < 128) {
+              return 'warning';
+            } else if (value > 256) {
+              return 'success';
+            } else {
+              return 'info';
+            }
+          }),
+          score: Math.floor(value / 400) // arbitrary
         };
+      default:
+        return null;
       }
     }));
   }

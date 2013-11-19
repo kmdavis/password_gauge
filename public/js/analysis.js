@@ -39,7 +39,8 @@ define(['underscore', 'keyboard', 'dictionary'], function (_, Keyboard, Dictiona
       sequential_letters:            sequential(password,  /[a-zA-Z]{2,}/g),
       keyboard_proximity:            keyboard.proximity(password),
       dictionary_hits:               dictionary.getHits(password),
-      dictionary_hit_count:          dictionary.getNumHits(password)
+      dictionary_hit_count:          dictionary.getNumHits(password),
+      entropy:                       entropy(password, !!numUppercase, !!numLowercase, !!numNumerals, !!numSymbols)
       // TODO: unicode? (e.g. 'ä' vs '$' and 'a' -> 'ä')
       // TODO: war list (e.g. ask some questions, what's your name? when were you born?, etc
     };
@@ -61,6 +62,23 @@ define(['underscore', 'keyboard', 'dictionary'], function (_, Keyboard, Dictiona
       });
       return count;
     }, 0);
+  }
+
+  function entropy (password, hasUppercase, hasLowercase, hasNumerals, hasSymbols) {
+    var possible_symbols = 0;
+    if (hasUppercase) {
+      possible_symbols += 26;
+    }
+    if (hasLowercase) {
+      possible_symbols += 26;
+    }
+    if (hasNumerals) {
+      possible_symbols += 10;
+    }
+    if (hasSymbols) {
+      possible_symbols += 33; // ascii (basic) printable characters that do not match \d.
+    }
+    return password.length * (Math.log(possible_symbols) / Math.log(2));
   }
 
   return {
