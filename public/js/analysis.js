@@ -33,12 +33,13 @@ define(['underscore', 'keyboard', 'dictionary'], function (_, Keyboard, Dictiona
       repeat_symbols:                (password.match(/([\W_])(?=[^\1]*\1)/g) || []).length,
       consecutive_uppercase:         consecutive(password, /[A-Z]{2,}/g),
       consecutive_lowercase:         consecutive(password, /[a-z]{2,}/g),
-      consecutive_numbers:           consecutive(password, /\d{2,}/g),
+      consecutive_numerals:          consecutive(password, /\d{2,}/g),
       consecutive_symbols:           consecutive(password, /[\W_]{2,}/g),
-      sequential_numbers:            sequential(password,  /\d{2,}/g),
+      sequential_numerals:           sequential(password,  /\d{2,}/g),
       sequential_letters:            sequential(password,  /[a-zA-Z]{2,}/g),
       keyboard_proximity:            keyboard.proximity(password),
-      dictionary_hits:               dictionary.getHits(password)
+      dictionary_hits:               dictionary.getHits(password),
+      dictionary_hit_count:          dictionary.getNumHits(password)
       // TODO: unicode? (e.g. 'ä' vs '$' and 'a' -> 'ä')
       // TODO: war list (e.g. ask some questions, what's your name? when were you born?, etc
     };
