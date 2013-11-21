@@ -22,6 +22,9 @@ app.get '/', (req, res) ->
     keyboard: JSON.stringify(keyboardMap)
   }
 
+app.get '/about', (req, res) ->
+  res.render 'about'
+
 rawDictionary = _.compact(fs.readFileSync('config/dictionary.txt').toString().split(/\s/))
 keyboardMap = JSON.parse(fs.readFileSync('config/keyboards/qwerty_us_en.json')).map
 leetSubstitutions = JSON.parse(fs.readFileSync('config/leet_substitutions.json'))

@@ -6,22 +6,22 @@ define(['jquery', 'underscore', 'handlebars'], function ($, _, Handlebars) {
     AGENCIES = [
       {
         key: 'boss',
-        computationalStrength: 4, // 2^N computations / second
+        computationalStrength: 27, // 2^27 FLOPS ~= 171 MFLOPS, iPad2
         template: Handlebars.compile('It would take your boss <code>{{duration}}</code> to crack your password.')
       },
       {
         key: 'script-kiddie',
-        computationalStrength: 8, // 2^N computations / second
+        computationalStrength: 35, // 2^35 FLOPS ~= 39 GFLOPS, 2013 MBP Core i7
         template: Handlebars.compile('A script kiddie could crack your password in <code>{{duration}}</code>.')
       },
       {
         key: 'hacker',
-        computationalStrength: 16, // 2^N computations / second
+        computationalStrength: 41, // 2^41 FLOPS ~= 2.5 TFLOPS, GeForce GTX 590
         template: Handlebars.compile('A professional hacker could do it in <code>{{duration}}</code>.')
       },
       {
         key: 'nsa',
-        computationalStrength: 32, // 2^N computations / second
+        computationalStrength: 50, // 2^50 FLOPS ~= 1.1 PFLOPS, <redacted by the NSA>
         template: Handlebars.compile('The NSA (or another large security apparatus) could do it in <code>{{duration}}</code>.')
       }
     ];
@@ -36,7 +36,7 @@ define(['jquery', 'underscore', 'handlebars'], function ($, _, Handlebars) {
     } else if (duration < 3) {
       return 'about a second';
     } else if (duration < 50) {
-      return 'about ' + ((duration / 5) * 5) + ' seconds';
+      return 'about ' + Math.floor((duration / 5) * 5) + ' seconds';
     } else if (duration < 70) {
       return 'about a minute';
     } else if (duration < 3000) { // 50 minutes
