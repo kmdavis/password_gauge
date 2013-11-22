@@ -164,7 +164,7 @@ define(['jquery', 'underscore', 'handlebars'], function ($, _, Handlebars) {
         return naiveScoreRepeats(key, value, 'Number of Consecutive Numerals',             null, analysis.password_length, [0.05, 0.1, 0.2]); // arbitrary thresholds
       case 'consecutive_symbols':
         return naiveScoreRepeats(key, value, 'Number of Consecutive Symbols',              null, analysis.password_length, [0.05, 0.1, 0.2]); // arbitrary thresholds
-      case 'sequential_letters':
+      case 'sequential_characters':
         return naiveScoreRepeats(key, value, 'Number of Sequential Letters',
           'Sequences ("abcde") are also bad.',
           analysis.password_length, [0.01, 0.05, 0.1]); // arbitrary thresholds

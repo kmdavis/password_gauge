@@ -36,7 +36,7 @@ define(['underscore', 'keyboard', 'dictionary'], function (_, Keyboard, Dictiona
       consecutive_numerals:          consecutive(password, /\d{2,}/g),
       consecutive_symbols:           consecutive(password, /[\W_]{2,}/g),
       sequential_numerals:           sequential(password,  /\d{2,}/g),
-      sequential_letters:            sequential(password,  /[a-zA-Z]{2,}/g),
+      sequential_characters:         sequential(password,  /[a-zA-Z]{2,}/g),
       keyboard_proximity:            keyboard.proximity(password),
       dictionary_hits:               dictionary.getHits(password),
       dictionary_hit_count:          dictionary.getNumHits(password),

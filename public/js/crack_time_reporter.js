@@ -1,4 +1,4 @@
-define(['jquery', 'underscore', 'handlebars'], function ($, _, Handlebars) {
+define(['jquery', 'underscore', 'handlebars', 'moment'], function ($, _, Handlebars, moment) {
   var
     container = $('.time-required'),
     template = Handlebars.compile('<li class="list-group-item">{{{text}}}</li>'),
@@ -26,36 +26,39 @@ define(['jquery', 'underscore', 'handlebars'], function ($, _, Handlebars) {
       }
     ];
 
-  function fudgeFactor (analysis) {
-    return 1.0;
+  function score (val, min, divisor, outMin) {
+    if (val >= min) {
+      return outMin + ((1.0 - outMin) * (1 - (val / divisor)));
+    } else {
+      return 1.0;
+    }
   }
 
-  function renderDuration (duration) {
-    if (duration < 1) {
-      return 'less than a second';
-    } else if (duration < 3) {
-      return 'about a second';
-    } else if (duration < 50) {
-      return 'about ' + Math.floor((duration / 5) * 5) + ' seconds';
-    } else if (duration < 70) {
-      return 'about a minute';
-    } else if (duration < 3000) { // 50 minutes
-      return Math.floor(duration / 60) + ' minutes';
-    } else if (duration < 5400) { // 90 minutes
-      return 'about an hour';
-    } else if (duration < 80000) { //86400 == 1 day
-      return Math.floor(duration / 3600) + ' hours';
-    } else if (duration < 130000) {
-      return 'about a day';
-    } else if (duration < 600000) {
-      return 'under a week';
-    } else if (duration < 2500000) {
-      return 'a month';
-    } else if (duration < 45000000) {
-      return 'a year';
-    } else {
-      return Math.floor(duration / 31536000) + ' years';
-    }
+  function fudgeFactor (analysis) {
+
+
+    var result =
+      score(analysis.num_words, 2, analysis.password_length / 5, 0.9) *
+      score(analysis.num_numbers, 2, analysis.password_length / 5, 0.9) *
+      score(analysis.num_years, 2, analysis.password_length / 5, 0.9) *
+      score(analysis.repeat_characters, analysis.password_length / 5, analysis.password_length, 0.9) *
+      score(analysis.repeat_characters_insensitive, analysis.password_length / 5, analysis.password_length, 0.9) *
+      score(analysis.repeat_numerals, analysis.password_length / 5, analysis.password_length, 0.9) *
+      score(analysis.repeat_symbols, analysis.password_length / 5, analysis.password_length, 0.9) *
+      score(analysis.consecutive_uppercase, analysis.password_length / 5, analysis.password_length, 0.9) *
+      score(analysis.consecutive_lowercase, analysis.password_length / 5, analysis.password_length, 0.9) *
+      score(analysis.consecutive_numerals, analysis.password_length / 5, analysis.password_length, 0.9) *
+      score(analysis.consecutive_symbols, analysis.password_length / 5, analysis.password_length, 0.9) *
+      score(analysis.sequential_characters, analysis.password_length / 5, analysis.password_length, 0.9) *
+      score(analysis.sequential_numerals, analysis.password_length / 5, analysis.password_length, 0.9) *
+      score(analysis.keyboard_proximity, analysis.password_length * 2, analysis.password_length, 0.9) *
+      score(analysis.dictionary_hit_count, 1, analysis.password_length / 5, 0.9);
+
+    // todo: hashing method + salt
+
+    console.log('fudge factor', result);
+
+    return result;
   }
 
   function render (analysis) {
@@ -65,7 +68,7 @@ define(['jquery', 'underscore', 'handlebars'], function ($, _, Handlebars) {
       var secondsRequired = Math.pow(2, fudgedEntropy - agency.computationalStrength);
       return template({
         text: agency.template({
-          duration: renderDuration(secondsRequired)
+          duration: moment.duration(secondsRequired, 'seconds').humanize()
         })
       });
     }).join(''));

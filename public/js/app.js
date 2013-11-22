@@ -7,7 +7,7 @@ define(['jquery', 'analysis' , 'metrics_reporter', 'crack_time_reporter'], funct
     $('.results').removeClass('hide');
     // TODO: score results
     // TODO: render score
-    console.log(results);
+    console.log('analysis', results);
   }
 
   function init (config) {
