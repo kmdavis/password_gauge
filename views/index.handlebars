@@ -1,11 +1,11 @@
 <div class="jumbotron">
-  <h4>How good do you think your password is? <strong>Think again.</strong></h4>
+  <h4>{{{strings.site_tagline}}}</h4>
   <br>
   <form role="form" class="gauge-form">
     <input type="password"
            class="form-control input-lg"
            name="password"
-           placeholder="what's your password?"
+           placeholder="{{strings.gauge_password_placeholder}}"
            autocomplete="false"/>
     <div class="input-group input-group-sm">
       <select class="form-control" name="vendor">
@@ -28,32 +28,20 @@
     </div>
   </form>
   <br>
-  <p><a class="btn btn-lg btn-success" id="evaluate" href="#" role="button" title="Am I Safe?" data-content="Testing" data-toggle="popover" data-container="body" data-placement="bottom">Am I safe?</a></p>
+  <p><a class="btn btn-lg btn-success" id="evaluate" href="#" role="button" title="{{strings.gauge_call_to_action}}">{{strings.gauge_call_to_action}}</a></p>
   <div class="results hide">
-    <h4>How safe am I?</h4>
+    <h4>{{strings.crack_time_section_label}}</h4>
     <ul class="list-group time-required"></ul>
 
-    <h4>Analysis:</h4>
+    <h4>{{strings.metrics_section_label}}</h4>
     <ul class="list-group metrics"></ul>
   </div>
 </div>
 
 <div class="row marketing">
   <div class="col-lg-6">
-    <h4>Can I Trust You?</h4>
-    <p>
-      Never trust anyone.
-      Having said that, <strong>yes</strong> you can trust us.
-
-      Your password will not be saved.
-      Your password will not be sold.
-      Your password will not be transmitted.
-
-      <strong>All</strong> of our analysis is done client side, on <strong>your</strong> computer.
-
-      The only data we collect are the results of the analysis
-      <small>(e.g. what character classes are you using, how long is it, how long do we think it would take the NSA to crack it, etc)</small>
-    </p>
+    <h4>{{strings.gauge_faq_privacy_title}}</h4>
+    <p>{{{strings.gauge_faq_privacy_body}}}</p>
 
     <h4>Subheading</h4>
     <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>

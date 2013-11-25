@@ -1,4 +1,4 @@
-define(['jquery', 'analysis' , 'metrics_reporter', 'crack_time_reporter'], function ($, analysis, metricsReporter, crackTimeReporter) {
+define(['jquery', 'analysis' , 'metrics_reporter', 'crack_time_reporter', 'localize'], function ($, analysis, metricsReporter, crackTimeReporter, localize) {
   function run (password) {
     var results = analysis.analyze(password);
     // TODO: submit results
@@ -11,7 +11,10 @@ define(['jquery', 'analysis' , 'metrics_reporter', 'crack_time_reporter'], funct
   }
 
   function init (config) {
+    localize.init(config);
     analysis.init(config);
+    metricsReporter.init(config);
+    crackTimeReporter.init(config);
 
     $('.gauge-form').on('submit', function (ev) {
       ev.preventDefault();

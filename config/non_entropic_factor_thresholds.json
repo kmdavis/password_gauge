@@ -1,0 +1,77 @@
+{
+  "num_words": {
+    "minimumValue": 2,
+    "divisorPercent": 0.2,
+    "weight": 0.1
+  },
+  "num_numbers": {
+    "minimumValue": 2,
+    "divisorPercent": 0.2,
+    "weight": 0.1
+  },
+  "num_years": {
+    "minimumValue": 2,
+    "divisorPercent": 0.2,
+    "weight": 0.1
+  },
+  "repeat_characters": {
+    "minimumPercent": 0.2,
+    "divisorPercent": 1.0,
+    "weight": 0.1
+  },
+  "repeat_characters_insensitive": {
+    "minimumPercent": 0.2,
+    "divisorPercent": 1.0,
+    "weight": 0.1
+  },
+  "repeat_numerals": {
+    "minimumPercent": 0.2,
+    "divisorPercent": 1.0,
+    "weight": 0.1
+  },
+  "repeat_symbols": {
+    "minimumPercent": 0.2,
+    "divisorPercent": 1.0,
+    "weight": 0.1
+  },
+  "consecutive_uppercase": {
+    "minimumPercent": 0.2,
+    "divisorPercent": 1.0,
+    "weight": 0.1
+  },
+  "consecutive_lowercase": {
+    "minimumPercent": 0.2,
+    "divisorPercent": 1.0,
+    "weight": 0.1
+  },
+  "consecutive_numerals": {
+    "minimumPercent": 0.2,
+    "divisorPercent": 1.0,
+    "weight": 0.1
+  },
+  "consecutive_symbols": {
+    "minimumPercent": 0.2,
+    "divisorPercent": 1.0,
+    "weight": 0.1
+  },
+  "sequential_characters": {
+    "minimumPercent": 0.2,
+    "divisorPercent": 1.0,
+    "weight": 0.1
+  },
+  "sequential_numerals": {
+    "minimumPercent": 0.2,
+    "divisorPercent": 1.0,
+    "weight": 0.1
+  },
+  "keyboard_proximity": {
+    "minimumPercent": 2.0,
+    "divisorPercent": 1.0,
+    "weight": 0.1
+  },
+  "dictionary_hit_count": {
+    "minimumValue": 1,
+    "divisorPercent": 0.2,
+    "weight": 0.1
+  }
+}

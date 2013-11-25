@@ -1,0 +1,208 @@
+{
+  "password_length": {
+    "status": {
+      "type": "linear",
+      "thresholds": [8, 15, 32]
+    },
+    "score": {
+      "type": "linear",
+      "divisor": 64
+    }
+  },
+  "num_uppercase": {
+    "status": {
+      "type": "percent",
+      "min": 1,
+      "thresholds": [0.1, 0.25]
+    },
+    "score": { "type": "percent" }
+  },
+  "num_lowercase": {
+    "status": {
+      "type": "percent",
+      "min": 1,
+      "thresholds": [0.1, 0.25]
+    },
+    "score": { "type": "percent" }
+  },
+  "num_numerals": {
+    "status": {
+      "type": "percent",
+      "min": 1,
+      "thresholds": [0.1, 0.25]
+    },
+    "score": { "type": "percent" }
+  },
+  "num_symbols": {
+    "status": {
+      "type": "percent",
+      "min": 1,
+      "thresholds": [0.1, 0.25]
+    },
+    "score": { "type": "percent" }
+  },
+  "num_classes": {
+    "status": {
+      "type": "choose",
+      "values": ["danger", "danger", "warning", "info", "success"]
+    },
+    "score": {
+      "type": "linear",
+      "divisor": 4
+    }
+  },
+  "num_words": {
+    "status": {
+      "type": "poison",
+      "thresholds": [1, 2],
+      "maxOfLength": 0.2
+    },
+    "score": {
+      "type": "percent",
+      "maxOfLength": 0.2
+    }
+  },
+  "num_numbers": {
+    "status": {
+      "type": "poison",
+      "thresholds": [1, 2],
+      "maxOfLength": 0.2
+    },
+    "score": {
+      "type": "percent",
+      "maxOfLength": 0.2
+    }
+  },
+  "num_years": {
+    "status": {
+      "type": "poison",
+      "thresholds": [1, 2],
+      "maxOfLength": 0.2
+    },
+    "score": {
+      "type": "percent",
+      "maxOfLength": 0.2
+    }
+  },
+  "letters_only": {
+    "status": {
+      "type": "boolean",
+      "invert": true
+    },
+    "score": {
+      "type": "boolean",
+      "invert": true
+    }
+  },
+  "numerals_only": {
+    "status": {
+      "type": "boolean",
+      "invert": true
+    },
+    "score": {
+      "type": "boolean",
+      "invert": true
+    }
+  },
+  "symbols_only": {
+    "status": {
+      "type": "boolean",
+      "invert": true
+    },
+    "score": {
+      "type": "boolean",
+      "invert": true
+    }
+  },
+  "repeat_characters": {
+    "status": {
+      "type": "percent",
+      "invert": true,
+      "thresholds": [0.05, 0.1, 0.2]
+    },
+    "score": {
+      "type": "percent"
+    }
+  },
+  "repeat_characters_insensitive": {
+    "status": {
+      "type": "percent",
+      "invert": true,
+      "thresholds": [0.05, 0.1, 0.2]
+    },
+    "score": {
+      "type": "percent"
+    }
+  },
+  "repeat_numerals": {
+    "status": {
+      "type": "percent",
+      "invert": true,
+      "thresholds": [0.05, 0.1, 0.2]
+    },
+    "score": {
+      "type": "percent"
+    }
+  },
+  "repeat_symbols": {
+    "status": {
+      "type": "percent",
+      "invert": true,
+      "thresholds": [0.05, 0.1, 0.2]
+    },
+    "score": {
+      "type": "percent"
+    }
+  },
+  "sequential_characters": {
+    "status": {
+      "type": "percent",
+      "invert": true,
+      "thresholds": [0.01, 0.05, 0.1]
+    },
+    "score": {
+      "type": "percent"
+    }
+  },
+  "sequential_numerals": {
+    "status": {
+      "type": "percent",
+      "invert": true,
+      "thresholds": [0.01, 0.05, 0.1]
+    },
+    "score": {
+      "type": "percent"
+    }
+  },
+  "keyboard_proximity": {
+    "status": {
+      "type": "percent",
+      "invert": true,
+      "thresholds": [0.05, 0.1, 0.2]
+    },
+    "score": {
+      "type": "percent"
+    }
+  },
+  "dictionary_hit_count": {
+    "status": {
+      "type": "poison",
+      "thresholds": [1, 2],
+      "maxOfLength": 0.2
+    },
+    "score": {
+      "type": "percent",
+      "maxOfLength": 0.2
+    }
+  },
+  "entropy": {
+    "status": {
+      "type": "linear",
+      "thresholds": [64, 128, 256]
+    },
+    "score": {
+      "type": "linear",
+      "divisor": 400
+    }
+  }
+}

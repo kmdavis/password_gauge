@@ -17,29 +17,42 @@ app.set 'views', "#{__dirname}/views"
 app.set 'view engine', 'handlebars'
 
 app.get '/', (req, res) ->
-  res.render 'index', {
-    dictionary: JSON.stringify(mutatedDictionary),
-    keyboard: JSON.stringify(keyboardMap)
-  }
+  fs.readFile 'config/strings/en.json', (err, data) ->
+    strings = JSON.parse(data)
+    res.render 'index', {
+      strings: strings,
+      config: JSON.stringify({
+        nonEntropicFactorThresholds: nonEntropicFactorThresholds,
+        metricThresholds: metricThresholds,
+        agencies: agencies,
+        keyboard: keyboardMap,
+        localizationTable: strings,
+        dictionary: mutatedDictionary
+      })
+    }
 
 app.get '/about', (req, res) ->
-  res.render 'about'
+  fs.readFile 'config/strings/en.json', (err, data) ->
+    strings = JSON.parse(data)
+    res.render 'about', {
+      strings: strings
+    }
 
 rawDictionary = _.compact(fs.readFileSync('config/dictionary.txt').toString().split(/\s/))
 keyboardMap = JSON.parse(fs.readFileSync('config/keyboards/qwerty_us_en.json')).map
 leetSubstitutions = JSON.parse(fs.readFileSync('config/leet_substitutions.json'))
+nonEntropicFactorThresholds = JSON.parse(fs.readFileSync('config/non_entropic_factor_thresholds.json'))
+metricThresholds = JSON.parse(fs.readFileSync('config/metric_thresholds.json'))
+agencies = JSON.parse(fs.readFileSync('config/agencies.json')).agencies
+
 keyboard = new Keyboard(keyboardMap)
 leetMutator = new LeetMutator(leetSubstitutions)
 keyboardMutator = new KeyboardMutator(keyboard)
 
-startTime = Date.now()
-console.log "Creating Mutant Dictionary from #{rawDictionary.length} entries; this WILL take awhile"
 dictionary = new Dictionary(rawDictionary)
 dictionary.addMutator(leetMutator)
 dictionary.addMutator(keyboardMutator)
 mutatedDictionary = dictionary.mutate(1)
-mutationElapsed = Date.now() - startTime
-console.log("Created Mutant Dictionary with #{mutatedDictionary.getLength()} entries in #{mutationElapsed}ms")
 
 port = process.env.PORT || 3000
 app.listen port, ->

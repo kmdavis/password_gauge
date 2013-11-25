@@ -1,0 +1,24 @@
+{
+  "agencies": [
+    {
+      "key": "boss",
+      "computationalStrength": 27,
+      "computationalStrengthComment": "iPad2: 171 MFLOPS"
+    },
+    {
+      "key": "script_kiddie",
+      "computationalStrength": 35,
+      "computationalStrengthComment": "2013 MBP Core 17: 39 GFLOPS"
+    },
+    {
+      "key": "hacker",
+      "computationalStrength": 41,
+      "computationalStrengthComment": "GeForce GTX 590: 2.5 TFLOPS"
+    },
+    {
+      "key": "nsa",
+      "computationalStrength": 50,
+      "computationalStrengthComment": "<redacted by the NSA>: 1.1 PFLOPS"
+    }
+  ]
+}

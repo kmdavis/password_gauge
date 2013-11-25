@@ -1,0 +1,24 @@
+{
+  "site_title": "Password Gauge",
+  "site_copyright": "&copy; Kevan Davis 2013",
+  "site_tagline": "How good do you think your password is? <strong>Think again.</strong>",
+
+  "link_home": "Home",
+  "link_about": "About",
+  "link_contact": "Contact",
+
+  "gauge_password_placeholder": "what's your password?",
+  "gauge_call_to_action": "Am I safe?",
+
+  "gauge_faq_privacy_title": "Can I Trust You?",
+  "gauge_faq_privacy_body": "Never trust anyone. Having said that, <strong>yes</strong> you can trust us. Your password will not be saved. Your password will not be sold. Your password will not be transmitted. <strong>All</strong> of our analysis is done client side, on <strong>your</strong> computer. The only data we collect are the results of the analysis <small>(e.g. what character classes are you using, how long is it, how long do we think it would take the NSA to crack it, etc)</small>",
+
+  "crack_time_section_label": "How safe am I?",
+  "crack_time_template_boss": "It would take your boss <code>{{duration}}</code> to crack your password.",
+  "crack_time_template_script_kiddie": "A script kiddie could crack your password in <code>{{duration}}</code>.",
+  "crack_time_template_hacker": "A professional hacker could do it in <code>{{duration}}</code>.",
+  "crack_time_template_nsa": "The NSA (or another large security apparatus) could do it in <code>{{duration}}</code>.",
+
+  "metrics_section_label": "Analysis:",
+  "metric_label_password_length": "Password Length"
+}
