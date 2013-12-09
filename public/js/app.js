@@ -3,7 +3,7 @@ define('app',
 [
   'vendor/jquery',
   'vendor/underscore',
-  'lib/analysis' ,
+  'lib/analysis',
   'metrics_reporter',
   'crack_time_reporter',
   'lib/localize'

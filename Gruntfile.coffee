@@ -2,31 +2,21 @@ module.exports = (grunt) ->
   grunt.initConfig
     pkg: grunt.file.readJSON 'package.json'
     meta:
-      src:   'lib/**/*.js'
+      lib:   'lib/**/*.js'
+      public: 'public/js/*.js'
       specs: 'spec/**/*.spec.js'
     jshint:
-      src: ['<%= meta.src %>', '<%= meta.specs %>']
+      src: ['<%= meta.lib %>', '<%= meta.public %>', '<%= meta.specs %>']
       options:
-        curly:     true
-        expr:      true
-        newcap:    true
-        quotmark:  'single'
-        regexdash: true
-        trailing:  true
-        undef:     true
-        unused:    false
-        maxerr:    100
-        eqnull:    true
-        sub:       false
-        browser:   true
-        node:      true
+        jshintrc: true
     karma:
       options:
         configFile: 'karma.conf.js'
         preprocessors:
-          '**/lib/kairos*.js': 'coverage'
+          '**/lib/**/*.js': 'coverage'
         browsers: [
-          'Firefox', 'Chrome', 'Safari'
+          #'Firefox', 'Chrome', 'Safari'
+          'Firefox'
         ]
         reporters: ['progress', 'coverage']
     # files: [] # Can't do this here, due to lack of JASMINE and JASMINE_ADAPTER global constants
@@ -39,9 +29,17 @@ module.exports = (grunt) ->
         browsers: [
           'PhantomJS'
         ]
+    coverage:
+      options:
+        thresholds:
+          statements: 90
+          branches: 90
+          lines: 90
+          functions: 90
+        dir: 'coverage'
     complexity:
       generic:
-        src: ['<%= meta.src %>']
+        src: ['<%= meta.lib %>', '<%= meta.public %>']
         options:
           errorsOnly: false
           cyclomatic: 10
@@ -49,37 +47,51 @@ module.exports = (grunt) ->
           maintainability: 65
     clean:
       build: ['dist', 'coverage', 'test-results.xml', 'doc']
+      test: ['coverage', 'test-results.xml']
     concat:
       options:
         separator: '\n\n'
         banner: '/*! <%= pkg.name %> v<%= pkg.version %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       build:
-        src: [
-          'lib/kairos_errors.js'
-          'lib/kairos_event.js',
-          'lib/kairos_time_frame.js'
-          'lib/kairos_collection.js'
+        src: [ # TODO: MAINTANANCE TASK: keep this in the proper order
+          'public/js/vendor/require.js',
+          'public/js/vendor/jquery.js',
+          'public/js/vendor/bootstrap.js',
+          'public/js/vendor/underscore.js',
+          'public/js/vendor/moment.js',
+          'public/js/vendor/handlebars.js',
+          'lib/metric_scorer.js',
+          'lib/non_entropic_factors.js',
+          'lib/keyboard.js',
+          'lib/keyboard_mutator.js',
+          'lib/leet_mutator.js',
+          'lib/dictionary.js',
+          'lib/analysis.js',
+          'lib/localize.js',
+          'public/js/crack_time_reporter.js',
+          'public/js/metrics_reporter.js',
+          'public/js/app.js'
         ]
-        dest: 'dist/<%= pkg.name %>.js'
+        dest: 'public/js/<%= pkg.name %>.src.js'
     replace:
       dist:
         options:
           variables:
-            'version': '<%= pkg.version %>'
+            'version': '<%= pkg.version %>' # Not currently used
         files: [
           {
             expand: true,
             flatten: true,
-            src: ['dist/*.js'],
-            dest: 'dist/'
+            src: ['public/js/<%= pkg.name %>.src.js'],
+            dest: 'public/js/'
           }
         ]
     uglify:
       options:
         banner: '/*! <%= pkg.name %> v<%= pkg.version %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       build:
-        src:  'dist/<%= pkg.name %>.js'
-        dest: 'dist/<%= pkg.name %>.min.js'
+        src:  'public/js/<%= pkg.name %>.src.js'
+        dest: 'public/js/<%= pkg.name %>.min.js'
     release:
       options:
         bump:     true,  # bump the version in your package.json file.
@@ -96,6 +108,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-jasmine'
   grunt.loadNpmTasks 'grunt-contrib-jshint'
   grunt.loadNpmTasks 'grunt-contrib-uglify'
+  grunt.loadNpmTasks 'grunt-istanbul-coverage'
   grunt.loadNpmTasks 'grunt-karma'
   grunt.loadNpmTasks 'grunt-release'
   grunt.loadNpmTasks 'grunt-replace'
@@ -120,5 +133,5 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'default', ['karma:specs']
   grunt.registerTask 'build', ['test', 'clean:build', 'doc', 'concat', 'replace', 'uglify']
-  grunt.registerTask 'test', ['jshint', 'karma:amd', 'karma:once', 'coveralls', 'complexity']
-  grunt.registerTask 'test_travis', ['jshint', 'karma:amd_travis', 'karma:once_travis', 'coveralls']
+  grunt.registerTask 'test', ['clean:test', 'jshint', 'karma:once', 'coverage', 'complexity']
+  grunt.registerTask 'test_travis', ['clean:test', 'jshint', 'karma:once_travis', 'coveralls']

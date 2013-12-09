@@ -15,24 +15,28 @@ frameworks = ['jasmine'];
 files = [
   JASMINE,
   JASMINE_ADAPTER,
+  // TODO: MAINTANANCE TASK: keep this in sync with public/js/vendor/underscore.js
   'node_modules/underscore/underscore.js',
-  'lib/kairos_errors.js',
-  'lib/kairos_event.js',
-  'lib/kairos_time_frame.js',
-  'lib/kairos_collection.js',
-  'spec/**/*.spec.js'
+  // TODO: MAINTANANCE TASK: keep this in the proper order
+  'lib/metric_scorer.js',
+  'lib/non_entropic_factors.js',
+  'lib/keyboard.js',
+  'lib/keyboard_mutator.js',
+  'lib/leet_mutator.js',
+  'lib/dictionary.js',
+  'lib/analysis.js',
+  'lib/localize.js',
+  'spec/spec_helpers.js',
+  'spec/*.spec.js'
 ];
 
 // list of files to exclude
-exclude = [
-  'spec/amd_main.js',
-  'spec/kairos_amd.spec.js'
-];
+exclude = [];
 
 // use dots reporter, as travis terminal does not support escaping sequences
 // possible values: 'dots', 'progress', 'junit', 'teamcity'
 // CLI --reporters progress
-reporters = ['progress', 'junit', 'coverage'];
+reporters = ['progress', 'coverage'];
 
 junitReporter = {
   // will be resolved to basePath (in the same way as files/exclude patterns)
