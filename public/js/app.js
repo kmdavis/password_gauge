@@ -1,13 +1,27 @@
-define(['jquery', 'analysis' , 'metrics_reporter', 'crack_time_reporter', 'localize'], function ($, analysis, metricsReporter, crackTimeReporter, localize) {
+define('app',
+
+[
+  'vendor/jquery',
+  'vendor/underscore',
+  'lib/analysis' ,
+  'metrics_reporter',
+  'crack_time_reporter',
+  'lib/localize'
+],
+
+function ($, _, analysis, metricsReporter, crackTimeReporter, localize) {
   function run (password) {
-    var results = analysis.analyze(password);
-    // TODO: submit results
+    var
+      results = analysis.analyze(password),
+      cleanedResults = _.clone(results);
+
+    delete cleanedResults.dictionary_hits;
+    $.get('/submit_results', cleanedResults);
+
     metricsReporter.render(results);
     crackTimeReporter.render(results);
+
     $('.results').removeClass('hide');
-    // TODO: score results
-    // TODO: render score
-    console.log('analysis', results);
   }
 
   function init (config) {

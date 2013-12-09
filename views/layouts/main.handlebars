@@ -3,7 +3,7 @@
   <head>
     <title>{{strings.site_title}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/css/bootstrap.css" rel="stylesheet" media="screen">
     <link href="/css/narrow_theme.css" rel="stylesheet" media="screen">
     <link href="/css/main.css" rel="stylesheet" media="screen">
   </head>
@@ -24,7 +24,7 @@
       </div>
 
       <div class="footer">
-        <p>{{strings.site_copyright}}</p>
+        <p>{{{strings.site_copyright}}}</p>
       </div>
 
     </div>
@@ -34,9 +34,9 @@
         baseUrl: '/js'
       };
     </script>
-    <script src="/js/require.min.js"></script>
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/vendor/require.js"></script>
+    <script src="/js/vendor/jquery.js"></script>
+    <script src="/js/vendor/bootstrap.js"></script>
     <script type="text/javascript">
       require(['app'], function (app) {
         app.init({{{config}}});

@@ -1,4 +1,15 @@
-define(['jquery', 'underscore', 'handlebars', 'moment', 'localize', 'non_entropic_factors'], function ($, _, Handlebars, moment, localize, nonEntropicFactors) {
+define('crack_time_reporter',
+
+[
+  'vendor/jquery',
+  'vendor/underscore',
+  'vendor/handlebars',
+  'vendor/moment',
+  'lib/localize',
+  'lib/non_entropic_factors'
+],
+
+function ($, _, Handlebars, moment, localize, nonEntropicFactors) {
   var
     container = $('.time-required'),
     template = Handlebars.compile('<li class="list-group-item">{{{text}}}</li>'),

@@ -3,13 +3,14 @@ app = express()
 exphbs = require 'express3-handlebars'
 fs = require 'fs'
 _ = require 'underscore'
-Keyboard = require './public/js/keyboard'
-Dictionary = require './public/js/dictionary'
-LeetMutator = require './public/js/leet_mutator'
-KeyboardMutator = require './public/js/keyboard_mutator'
+Keyboard = require './lib/keyboard'
+Dictionary = require './lib/dictionary'
+LeetMutator = require './lib/leet_mutator'
+KeyboardMutator = require './lib/keyboard_mutator'
 
 app.use app.router
 app.use express.static "#{__dirname}/public"
+app.use express.bodyParser()
 
 app.engine 'handlebars', exphbs {defaultLayout: 'main'}
 
@@ -30,6 +31,11 @@ app.get '/', (req, res) ->
         dictionary: mutatedDictionary
       })
     }
+
+app.get '/submit_results', (req, res) ->
+  console.log('RESULTS', req.query)
+  # TODO: save results
+  res.send 200
 
 app.get '/about', (req, res) ->
   fs.readFile 'config/strings/en.json', (err, data) ->

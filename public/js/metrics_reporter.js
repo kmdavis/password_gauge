@@ -1,4 +1,14 @@
-define(['jquery', 'underscore', 'handlebars', 'localize', 'metric_scorer'], function ($, _, Handlebars, localize, metricScorer) {
+define('metrics_reporter',
+
+[
+  'vendor/jquery',
+  'vendor/underscore',
+  'vendor/handlebars',
+  'lib/localize',
+  'lib/metric_scorer'
+],
+
+function ($, _, Handlebars, localize, metricScorer) {
   var
     container = $('.metrics'),
     template = Handlebars.compile('' +
