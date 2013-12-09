@@ -24,7 +24,7 @@
 
  @license
  */
-define(function() {
+define('vendor/handlebars', function() {
 // handlebars/safe-string.js
   var __module4__ = (function() {
     "use strict";

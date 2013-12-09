@@ -17,11 +17,15 @@ app.engine 'handlebars', exphbs {defaultLayout: 'main'}
 app.set 'views', "#{__dirname}/views"
 app.set 'view engine', 'handlebars'
 
+port = process.env.PORT || 3000
+env = process.env.ENV || 'dev'
+
 app.get '/', (req, res) ->
   fs.readFile 'config/strings/en.json', (err, data) ->
     strings = JSON.parse(data)
     res.render 'index', {
       strings: strings,
+      minifyAssets: 'prod' == env
       config: JSON.stringify({
         nonEntropicFactorThresholds: nonEntropicFactorThresholds,
         metricThresholds: metricThresholds,
@@ -60,6 +64,5 @@ dictionary.addMutator(leetMutator)
 dictionary.addMutator(keyboardMutator)
 mutatedDictionary = dictionary.mutate(1)
 
-port = process.env.PORT || 3000
 app.listen port, ->
   console.log("Listening on port # #{port}")

@@ -46,7 +46,7 @@ module.exports = (grunt) ->
           halstead: 20
           maintainability: 65
     clean:
-      build: ['dist', 'coverage', 'test-results.xml', 'doc']
+      build: ['coverage', 'test-results.xml', 'doc', 'public/css/main.min.css', 'public/js/main.src.js', 'public/js/main.min.js']
       test: ['coverage', 'test-results.xml']
     concat:
       options:
@@ -72,7 +72,7 @@ module.exports = (grunt) ->
           'public/js/metrics_reporter.js',
           'public/js/app.js'
         ]
-        dest: 'public/js/<%= pkg.name %>.src.js'
+        dest: 'public/js/main.src.js'
     replace:
       dist:
         options:
@@ -82,7 +82,7 @@ module.exports = (grunt) ->
           {
             expand: true,
             flatten: true,
-            src: ['public/js/<%= pkg.name %>.src.js'],
+            src: ['public/js/main.src.js'],
             dest: 'public/js/'
           }
         ]
@@ -90,8 +90,17 @@ module.exports = (grunt) ->
       options:
         banner: '/*! <%= pkg.name %> v<%= pkg.version %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       build:
-        src:  'public/js/<%= pkg.name %>.src.js'
-        dest: 'public/js/<%= pkg.name %>.min.js'
+        src:  'public/js/main.src.js'
+        dest: 'public/js/main.min.js'
+    less:
+      production:
+        options:
+          report: 'gzip'
+          strictImports: true
+          cleancss: true
+        files: {
+          'public/css/main.min.css': 'public/css/main.less'
+        }
     release:
       options:
         bump:     true,  # bump the version in your package.json file.
@@ -107,6 +116,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-concat'
   grunt.loadNpmTasks 'grunt-contrib-jasmine'
   grunt.loadNpmTasks 'grunt-contrib-jshint'
+  grunt.loadNpmTasks 'grunt-contrib-less'
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-istanbul-coverage'
   grunt.loadNpmTasks 'grunt-karma'
@@ -132,6 +142,7 @@ module.exports = (grunt) ->
       done !err?
 
   grunt.registerTask 'default', ['karma:specs']
-  grunt.registerTask 'build', ['test', 'clean:build', 'doc', 'concat', 'replace', 'uglify']
+  grunt.registerTask 'minify', ['concat', 'replace', 'uglify', 'less']
+  grunt.registerTask 'build', ['test', 'clean:build', 'doc', 'minify']
   grunt.registerTask 'test', ['clean:test', 'jshint', 'karma:once', 'coverage', 'complexity']
   grunt.registerTask 'test_travis', ['clean:test', 'jshint', 'karma:once_travis', 'coveralls']
