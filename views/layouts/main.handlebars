@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {{#if minifyAssets}}
       <link href="/css/main.min.css" rel="stylesheet" media="screen">
+      <script src="/js/vendor/modernizr.min.js"></script>
     {{else}}
-      <link href="/css/main.less" rel="stylesheet" media="screen">
+      <link href="/css/main.less" rel="stylesheet/less" media="screen">
+      <script src="/js/vendor/less.js"></script>
+      <script src="/js/vendor/modernizr.js"></script>
     {{/if}}
   </head>
   <body>
