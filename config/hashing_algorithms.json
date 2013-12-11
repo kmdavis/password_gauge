@@ -1,0 +1,92 @@
+{
+  "baseline_strength": 500,
+  "system_salt_bonus": 1.1,
+  "user_salt_bonus": 1.2,
+  "cryptographic_hash_functions": [
+    {
+      "key": "md5",
+      "estimated_strength": 18,
+      "collision_complexity": 18
+    },
+    {
+      "key": "sha-1",
+      "estimated_strength": 60,
+      "collision_complexity": 60
+    },
+    {
+      "key": "sha-256",
+      "estimated_strength": 248,
+      "preimage_complexity": 248
+    },
+    {
+      "key": "sha-512",
+      "estimated_strength": 494,
+      "preimage_complexity": 494
+    },
+    {
+      "key": "sha-3",
+      "estimated_strength": 800,
+      "preimage_complexity": 800
+    },
+    {
+      "key": "radio-gatun-32",
+      "estimated_strength": 304,
+      "preimage_complexity": 304
+    },
+    {
+      "key": "radio-gatun-64",
+      "estimated_strength": 608,
+      "preimage_complexity": 608
+    }
+  ],
+  "key_derivation_functions": [
+    {
+      "key": "pbkdf1",
+      "estimated_strength": 100
+    },
+    {
+      "key": "pbkdf2",
+      "estimated_strength": 500
+    },
+    {
+      "key": "bcrypt",
+      "estimated_strength": 1500
+    },
+    {
+      "key": "scrypt",
+      "estimated_strength": 1500
+    }
+  ],
+  "known_sites": [
+    {
+      "key": "google",
+      "algorithm": "sha-256",
+      "system_salt": true,
+      "user_salt": false
+    },
+    {
+      "key": "gilt",
+      "algorithm": "bcrypt",
+      "system_salt": true,
+      "user_salt": false
+    },
+    {
+      "key": "yahoo",
+      "algorithm": "sha-256",
+      "system_salt": true,
+      "user_salt": false
+    },
+    {
+      "key": "facebook",
+      "algorithm": "sha-256",
+      "system_salt": false,
+      "user_salt": true
+    },
+    {
+      "key": "microsoft",
+      "algorithm": "md5",
+      "system_salt": false,
+      "user_salt": false
+    }
+  ]
+}

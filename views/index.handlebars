@@ -8,22 +8,21 @@
            placeholder="{{strings.gauge_password_placeholder}}"
            autocomplete="false"/>
     <div class="input-group input-group-sm">
-      <select class="form-control" name="vendor">
+      <select class="form-control" name="site">
         <option value="">Where do you use this?</option>
-        <option value="gilt">Gilt</option>
-        <option value="gmail">Gmail</option>
-        <option value="yahoo">Yahoo!</option>
-        <option value="microsoft">Microsoft</option>
-        <option value="todo">TODO: More Options</option>
+        {{#each hashing_algorithms.known_sites}}
+          <option value="{{key}}">{{label}}</option>
+        {{/each}}
       </select>
       <span class="input-group-addon">OR</span>
-      <select class="form-control" name="hash_method">
+      <select class="form-control" name="hash">
         <option value="">How is your password secured?</option>
-        <option value="MD5">MD5</option>
-        <option value="SHA-1">SHA-1</option>
-        <option value="SHA-256">SHA-256</option>
-        <option value="bcrypt">bcrypt</option>
-        <option value="todo">TODO: More Options</option>
+        {{#each hashing_algorithms.cryptographic_hash_functions}}
+          <option value="{{key}}">{{label}}</option>
+        {{/each}}
+        {{#each hashing_algorithms.key_derivation_functions}}
+          <option value="{{key}}">{{label}}</option>
+        {{/each}}
       </select>
     </div>
   </form>

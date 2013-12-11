@@ -12,7 +12,7 @@ function ($, _, Handlebars, localize, metricScorer) {
   var
     container = $('.metrics'),
     template = Handlebars.compile('' +
-      '<li class="list-group-item metric alert alert-{{status}}">{{label}}{{#if hasTooltip}} <span class="glyphicon glyphicon-info-sign"></span>{{/if}}<span class="badge">{{#if boolean}}{{#if value}}x{{else}}&#x2713{{/if}}{{else}}{{value}}{{/if}}</span></li>'
+      '<li class="list-group-item metric alert alert-{{status}}">{{{label}}}{{#if hasTooltip}} <span class="glyphicon glyphicon-info-sign"></span>{{/if}}<span class="badge">{{#if boolean}}{{#if value}}x{{else}}&#x2713{{/if}}{{else}}{{value}}{{/if}}</span></li>'
     );
 
   function render (analysis) {

@@ -10,7 +10,7 @@ define('app',
 ],
 
 function ($, _, analysis, metricsReporter, crackTimeReporter, localize) {
-  function run (password) {
+  function run (password, site) {
     var
       results = analysis.analyze(password),
       cleanedResults = _.clone(results);
@@ -19,9 +19,36 @@ function ($, _, analysis, metricsReporter, crackTimeReporter, localize) {
     $.get('/submit_results', cleanedResults);
 
     metricsReporter.render(results);
-    crackTimeReporter.render(results);
+    crackTimeReporter.render(results, site);
 
     $('.results').removeClass('hide');
+  }
+
+  function getPassword() {
+    return $('.gauge-form input[name=password]').val();
+  }
+
+  function getSite(config) {
+    var
+      siteKey = $('.gauge-form select[name=site]').val(),
+      hashKey = $('.gauge-form select[name=hash]').val(),
+      site = {
+        algorithm: 'sha-256',
+        system_salt: true,
+        user_salt: false
+      };
+
+    if (siteKey) {
+      console.log('SITEKEY', siteKey);
+      site = _.find(config.hashingAlgorithms.known_sites, function (s) {
+        return s.key === siteKey;
+      });
+    } else if (hashKey) {
+      console.log('HASHKEY', hashKey);
+      site.algorithm = hashKey;
+    }
+
+    return site;
   }
 
   function init (config) {
@@ -32,12 +59,12 @@ function ($, _, analysis, metricsReporter, crackTimeReporter, localize) {
 
     $('.gauge-form').on('submit', function (ev) {
       ev.preventDefault();
-      run($('.gauge-form input[name=password]').val());
+      run(getPassword(), getSite(config));
     });
 
     $('#evaluate').on('click', function (ev) {
       ev.preventDefault();
-      run($('.gauge-form input[name=password]').val());
+      run(getPassword(), getSite(config));
     });
   }
 

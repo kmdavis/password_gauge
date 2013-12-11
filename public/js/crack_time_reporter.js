@@ -15,10 +15,10 @@ function ($, _, Handlebars, moment, localize, nonEntropicFactors) {
     template = Handlebars.compile('<li class="list-group-item">{{{text}}}</li>'),
     agencies = [];
 
-  function render (analysis) {
+  function render (analysis, site) {
     var fudgedEntropy = analysis.entropy * nonEntropicFactors.score(analysis);
     container.empty().append(_.map(agencies, function (agency) {
-      var secondsRequired = Math.pow(2, fudgedEntropy - agency.computationalStrength);
+      var secondsRequired = Math.pow(2, fudgedEntropy - agency.computationalStrength) * nonEntropicFactors.scoreSite(site);
       return template({
         text: agency.template({
           duration: moment.duration(secondsRequired, 'seconds').humanize()
