@@ -1,4 +1,4 @@
-/*! password_gauge v0.1.0 2013-12-09 */
+/*! password_gauge v0.1.0 2013-12-11 */
 /** vim: et:ts=4:sw=4:sts=4
  * @license RequireJS 2.1.9 Copyright (c) 2010-2012, The Dojo Foundation All Rights Reserved.
  * Available via the MIT or new BSD license.
@@ -23998,7 +23998,9 @@ define('vendor/handlebars', function() {
   }
 }(this, function (_) {
 
-  var thresholds = {};
+  var
+    thresholds = {},
+    siteSettings = {};
 
   function score (val, length, thresholds) {
     var
@@ -24011,6 +24013,18 @@ define('vendor/handlebars', function() {
     } else {
       return 1.0;
     }
+  }
+
+  function scoreSite (site) {
+    var algorithm = _.find(siteSettings.cryptographic_hash_functions, function (h) {
+      return h.key === site.algorithm;
+    }) || _.find(siteSettings.key_derivation_functions, function (h) {
+      return h.key === site.algorithm;
+    });
+
+    return (algorithm.estimated_strength / siteSettings.baseline_strength) *
+           (site.system_salt ? siteSettings.system_salt_bonus : 1.0) *
+           (site.user_salt ? siteSettings.user_salt_bonus : 1.0);
   }
 
   function scoreNonEntropicFactors (analysis) {
@@ -24027,11 +24041,13 @@ define('vendor/handlebars', function() {
     // TODO: add hashing method and salt to non_entropic_factor_thresholds
 
     thresholds = config.nonEntropicFactorThresholds;
+    siteSettings = config.hashingAlgorithms;
   }
 
   return {
     init: init,
-    score: scoreNonEntropicFactors
+    score: scoreNonEntropicFactors,
+    scoreSite: scoreSite
   };
 }));
 
@@ -24460,10 +24476,10 @@ function ($, _, Handlebars, moment, localize, nonEntropicFactors) {
     template = Handlebars.compile('<li class="list-group-item">{{{text}}}</li>'),
     agencies = [];
 
-  function render (analysis) {
+  function render (analysis, site) {
     var fudgedEntropy = analysis.entropy * nonEntropicFactors.score(analysis);
     container.empty().append(_.map(agencies, function (agency) {
-      var secondsRequired = Math.pow(2, fudgedEntropy - agency.computationalStrength);
+      var secondsRequired = Math.pow(2, fudgedEntropy - agency.computationalStrength) * nonEntropicFactors.scoreSite(site);
       return template({
         text: agency.template({
           duration: moment.duration(secondsRequired, 'seconds').humanize()
@@ -24500,7 +24516,7 @@ function ($, _, Handlebars, localize, metricScorer) {
   var
     container = $('.metrics'),
     template = Handlebars.compile('' +
-      '<li class="list-group-item metric alert alert-{{status}}">{{label}}{{#if hasTooltip}} <span class="glyphicon glyphicon-info-sign"></span>{{/if}}<span class="badge">{{#if boolean}}{{#if value}}x{{else}}&#x2713{{/if}}{{else}}{{value}}{{/if}}</span></li>'
+      '<li class="list-group-item metric alert alert-{{status}}">{{{label}}}{{#if hasTooltip}} <span class="glyphicon glyphicon-info-sign"></span>{{/if}}<span class="badge">{{#if boolean}}{{#if value}}x{{else}}&#x2713{{/if}}{{else}}{{value}}{{/if}}</span></li>'
     );
 
   function render (analysis) {
@@ -24547,7 +24563,7 @@ define('app',
 ],
 
 function ($, _, analysis, metricsReporter, crackTimeReporter, localize) {
-  function run (password) {
+  function run (password, site) {
     var
       results = analysis.analyze(password),
       cleanedResults = _.clone(results);
@@ -24556,9 +24572,36 @@ function ($, _, analysis, metricsReporter, crackTimeReporter, localize) {
     $.get('/submit_results', cleanedResults);
 
     metricsReporter.render(results);
-    crackTimeReporter.render(results);
+    crackTimeReporter.render(results, site);
 
     $('.results').removeClass('hide');
+  }
+
+  function getPassword() {
+    return $('.gauge-form input[name=password]').val();
+  }
+
+  function getSite(config) {
+    var
+      siteKey = $('.gauge-form select[name=site]').val(),
+      hashKey = $('.gauge-form select[name=hash]').val(),
+      site = {
+        algorithm: 'sha-256',
+        system_salt: true,
+        user_salt: false
+      };
+
+    if (siteKey) {
+      console.log('SITEKEY', siteKey);
+      site = _.find(config.hashingAlgorithms.known_sites, function (s) {
+        return s.key === siteKey;
+      });
+    } else if (hashKey) {
+      console.log('HASHKEY', hashKey);
+      site.algorithm = hashKey;
+    }
+
+    return site;
   }
 
   function init (config) {
@@ -24569,12 +24612,12 @@ function ($, _, analysis, metricsReporter, crackTimeReporter, localize) {
 
     $('.gauge-form').on('submit', function (ev) {
       ev.preventDefault();
-      run($('.gauge-form input[name=password]').val());
+      run(getPassword(), getSite(config));
     });
 
     $('#evaluate').on('click', function (ev) {
       ev.preventDefault();
-      run($('.gauge-form input[name=password]').val());
+      run(getPassword(), getSite(config));
     });
   }
 
